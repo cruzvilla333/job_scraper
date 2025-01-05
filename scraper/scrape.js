@@ -47,9 +47,7 @@ const scrape = async (jobTitle) => {
 const app = express();
 const port = 8080;
 
-// Endpoint to handle the GET request
 app.get('/get-jobs', async (req, res) => {
-    // Raw location string (could be passed as query parameter)
     const jobTitle = req.query.jobTitle || '';  // Accept location via query string (default empty string)
 
     if (!jobTitle) {
@@ -70,7 +68,6 @@ app.get('/get-jobs', async (req, res) => {
     }
 });
 
-// Start the Express server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
