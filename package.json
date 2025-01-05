@@ -1,0 +1,25 @@
+{
+  "name": "job_scraper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "run": "node scraper/scrape",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cruzvilla333/job_scraper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cruzvilla333/job_scraper/issues"
+  },
+  "homepage": "https://github.com/cruzvilla333/job_scraper#readme",
+  "description": "",
+  "dependencies": {
+    "puppeteer": "^23.11.1"
+  }
+}
