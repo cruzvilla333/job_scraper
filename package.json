@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cruzvilla333/job_scraper.git"
+    "url": "git+https://github.com/cruzvilla333/job_scraper_server.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/cruzvilla333/job_scraper/issues"
+    "url": "https://github.com/cruzvilla333/job_scraper_server/issues"
   },
-  "homepage": "https://github.com/cruzvilla333/job_scraper#readme",
+  "homepage": "https://github.com/cruzvilla333/job_scraper_server#readme",
   "description": "",
   "dependencies": {
     "express": "^4.21.2",
