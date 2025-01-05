@@ -1,17 +1,76 @@
 import puppeteer from "puppeteer";
+import express from 'express';
 
-const scrape = async () => {
-    const browser = await puppeteer.launch();
+const scrape = async (jobTitle) => {
+    const browser = await puppeteer.launch({
+        headless: false,
+        slowMo: 50,
+        defaultViewport: null,
+        devtools: true,
+        timeout: 600000
+    });
 
     const page = await browser.newPage();
 
-    const url = 'https://books.toscrape.com'
+    const url = 'https://careers.chewy.com/us/en'
 
     await page.goto(url)
 
-    const title = await page.title();
+    await page.type("#keywordSearch", jobTitle);
 
-    console.log(`Page Title: ${title}`)
+    await page.evaluate(() => {
+        const floatingSuggestions = document.querySelector(".phs-keyword-suggestions");
+        if (floatingSuggestions) {
+            floatingSuggestions.style.display = 'none';
+        }
+    });
+
+    await page.click("#ph-search-backdrop");
+    await page.waitForNavigation({
+        waitUntil: 'load'
+    })
+
+    const jobs = await page.evaluate(() => {
+        const jobs = document.querySelectorAll(".jobs-list-item");
+        const jobInformation = []
+        jobs.forEach(job => {
+            const jobTitle = job.querySelector('.job-title span')?.textContent ?? 'Not found';
+            const jobLocation = job.querySelector('.job-location')?.textContent?.replace('Location', '')?.trim() ?? 'Not found';
+            jobInformation.push({jobTitle, jobLocation});
+        })
+        return jobInformation;
+    })
+    await browser.close();
+    return jobs;
 };
 
-scrape();
+const app = express();
+const port = 8080;
+
+// Endpoint to handle the GET request
+app.get('/get-jobs', async (req, res) => {
+    // Raw location string (could be passed as query parameter)
+    const jobTitle = req.query.jobTitle || '';  // Accept location via query string (default empty string)
+
+    if (!jobTitle) {
+        return res.status(400).json({ error: 'Job title is required' });
+    }
+
+    try {
+        const jobs = await scrape(jobTitle);
+
+        if (jobs.length === 0) {
+            return res.status(404).json({ message: 'No jobs found' });
+        }
+
+        return res.json({ jobs });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Error occurred while scraping jobs' });
+    }
+});
+
+// Start the Express server
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
