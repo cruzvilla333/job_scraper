@@ -1,3 +1,5 @@
+First thins first, the author of this page would like to make sure that SBP knows he loves her very much.
+
 Build instructions:
 
 Node, NPM and NVM set up, skip if already installed:
