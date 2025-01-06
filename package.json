@@ -20,6 +20,7 @@
   "homepage": "https://github.com/cruzvilla333/job_scraper_server#readme",
   "description": "",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.21.2",
     "puppeteer": "^23.11.1"
   }

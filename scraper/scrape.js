@@ -1,5 +1,6 @@
 import puppeteer from "puppeteer";
 import express from 'express';
+import cors from 'cors';
 
 const scrape = async (jobTitle) => {
     const browser = await puppeteer.launch({
@@ -15,6 +16,8 @@ const scrape = async (jobTitle) => {
     const url = 'https://careers.chewy.com/us/en'
 
     await page.goto(url)
+
+    await page.waitForSelector("#keywordSearch", { visible: true });
 
     await page.type("#keywordSearch", jobTitle);
 
@@ -45,6 +48,7 @@ const scrape = async (jobTitle) => {
 };
 
 const app = express();
+app.use(cors());
 const port = 8080;
 
 app.get('/get-jobs', async (req, res) => {
