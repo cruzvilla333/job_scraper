@@ -33,14 +33,27 @@ const scrape = async (jobTitle) => {
         waitUntil: 'load'
     })
 
-    const jobs = await page.evaluate(() => {
+    const jobs = await page.evaluate(async () => {
         const jobs = document.querySelectorAll(".jobs-list-item");
         const jobInformation = []
-        jobs.forEach(job => {
-            const jobTitle = job.querySelector('.job-title span')?.textContent ?? 'Not found';
-            const jobLocation = job.querySelector('.job-location')?.textContent?.replace('Location', '')?.trim() ?? 'Not found';
+        for (const job of jobs) {
+            job.scrollIntoView({ behavior: 'smooth', block: 'center' })
+
+            const jobTitleSpan = job.querySelector('.job-title span');
+            let jobTitleTextColor = getComputedStyle(jobTitleSpan)?.color;
+            jobTitleSpan?.style.setProperty('color', 'red', 'important');
+            await new Promise(resolve => setTimeout(resolve, 500));
+            const jobTitle = jobTitleSpan?.textContent ?? 'Not found';
+            jobTitleSpan?.style.setProperty('color', jobTitleTextColor, 'important');
+
+            const jobLocationSpan = job.querySelector('.job-location');
+            let jobLocationTextColor = getComputedStyle(jobLocationSpan)?.color;
+            jobLocationSpan?.style.setProperty('color', 'red', 'important');
+            await new Promise(resolve => setTimeout(resolve, 500));
+            const jobLocation = jobLocationSpan?.textContent?.replace('Location', '')?.trim() ?? 'Not found';
+            jobLocationSpan?.style.setProperty('color', jobLocationTextColor, 'important');
             jobInformation.push({jobTitle, jobLocation});
-        })
+        }
         return jobInformation;
     })
     await browser.close();
@@ -73,5 +86,5 @@ app.get('/get-jobs', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on http://localhost:${port}, good job princess. Now go do the frontend.`);
 });
