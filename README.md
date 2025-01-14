@@ -1,5 +1,3 @@
-# First thins first, the author of this page would like to make sure that SBP knows he loves her very much.
-
 # JobScraperServer
 
 ## Development server
