@@ -86,5 +86,5 @@ app.get('/get-jobs', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}, good job princess. Now go do the frontend.`);
+    console.log(`Server is running on http://localhost:${port}`);
 });
